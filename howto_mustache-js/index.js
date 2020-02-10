@@ -8,6 +8,32 @@ Copyright (c) TenonGarden Productions, 2020
 
 // Assumes `mustache.js` has been loaded
 
+let generate_example_body = function hst_generate_example_body(
+  model,
+  view,
+  example_id,
+  container_tag
+)
+{
+  let success = false;
+  let doc_frag = new DocumentFragment();
+  let example_elm = document.getElementById(example_id);
+  let container_elm = document.createElement(container_tag);
+
+  container_elm.innerHTML = Mustache.render(model, view);
+  
+  doc_frag.appendChild(container_elm);
+
+  example_elm.appendChild(doc_frag);
+
+  success = true;
+
+  return (success);
+}
+
+
+// Example: Simple String
+// -----------------------------------------------------------------------------
 let model = "{{title}} am over {{calc}} years old.";
 
 let view = {
@@ -15,18 +41,12 @@ let view = {
   "calc": function () { return (3000); }
 };
 
-let output = Mustache.render(model, view);
-
-let doc_frag = new DocumentFragment();
-let p_tag = document.createElement("p");
-p_tag.innerHTML = output;
-doc_frag.appendChild(p_tag);
-
-body_tag = document.getElementById("ex_simple_str");
-body_tag.appendChild(doc_frag);
+generate_example_body(model, view, "ex_simple_str", "p");
+// -----------------------------------------------------------------------------
 
 
-
+// Example: Table
+// -----------------------------------------------------------------------------
 let table_model = String.raw`
 <table>
   <tbody>
@@ -91,10 +111,5 @@ let table_view = {
   ]
 }
 
-let table_doc_frag = new DocumentFragment();
-let div_tag = document.createElement("div");
-div_tag.innerHTML = Mustache.render(table_model, table_view);;
-table_doc_frag.appendChild(div_tag);
-
-div_table_container_tag = document.getElementById("ex_simple_table");
-div_table_container_tag.appendChild(table_doc_frag);
+generate_example_body(table_model, table_view, "ex_simple_table", "div");
+// -----------------------------------------------------------------------------
