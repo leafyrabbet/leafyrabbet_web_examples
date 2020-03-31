@@ -17,3 +17,11 @@ Example data used in this project was copied from:
 
 - http://www.naturalearthdata.com/downloads/
 - http://geojson.xyz/
+
+
+## References
+
+References used to help develop these examples:
+
+- https://benclinkinbeard.com/d3tips/attrclass-vs-classed/
+- https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox

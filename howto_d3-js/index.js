@@ -27,6 +27,8 @@ let attribute_update = function hst_attribute_update(select_str, html_str)
   return (null);
 }
 
+let axes_origin = [5, 10];
+
 
 let generate_xaxis = function hst_generate_xaxis(container_id)
 {
@@ -59,13 +61,36 @@ let generate_xaxis = function hst_generate_xaxis(container_id)
       .attr("id", "example_axis")
       .attr("class", "svg_chart")
     .append("g")
-      .attr("transform", "translate(5,10)")
+      .attr("transform", "translate(" + axes_origin[0] + ", " + axes_origin[1] + ")")
       .attr("id", "axis_bot")
       .call(data_axis_bot);
   
   attribute_update("#chart_width", (chart_width + "px"));
   attribute_update("#axis_width", (axis_width + "px"));
 
+  return (null);
+}
+
+let add_line_segment = function hst_add_line_segment(chart_id, axis_width)
+{
+  let x_scale = d3.scaleLinear().range([0, axis_width]);
+  let y_scale = d3.scaleLinear().range([0, 0]);
+
+  let data_line = d3.line()
+                    .x(function(d) { return x_scale(d.x); })
+                    .y(function(d) { return y_scale(d.y); });
+
+  d3.select("#" + chart_id)
+    .append("path")
+      .data([{
+          "x": [200, 300],
+          "y": [0, 0]
+        }]
+      )
+      .attr("class", "data_line")
+      .attr("transform", "translate(" + axes_origin[0] + ", " + axes_origin[1] + ")")
+      .attr("id", "data_segment")
+      .attr("d", data_line);
   return (null);
 }
 
@@ -83,6 +108,16 @@ function resize_xaxis()
   d3.select("#axis_bot")
     .call(data_axis_bot);
 
+  let x_scale = d3.scaleLinear().range([0, axis_width]);
+  let y_scale = d3.scaleLinear().range([0, 0]);
+
+  let data_line = d3.line()
+                    .x(function(d) { return x_scale(d.x); })
+                    .y(function(d) { return y_scale(d.y); });
+
+  d3.select("#data_segment")
+      .attr("d", data_line);
+
   attribute_update("#chart_width", (chart_width + "px"));
   attribute_update("#axis_width", (axis_width + "px"));
 
@@ -90,6 +125,7 @@ function resize_xaxis()
 }
 
 generate_xaxis("ex_axis_container");
+add_line_segment("example_axis", axis_width);
 
 let resize = function hst_resize()
 {
