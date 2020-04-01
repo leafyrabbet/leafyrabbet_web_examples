@@ -27,9 +27,6 @@ let increment_fnc = function hst_increment_fnc(count_value) {
 
 let get_counter_div = function hst_get_counter_div(props) {
    const [count_value, update_count] = React.useState(0);
-
-   // let count_value = 10;
-
    let p_elm = React.createElement(
       "p",
       null,
@@ -41,30 +38,26 @@ let get_counter_div = function hst_get_counter_div(props) {
          "name": "Increment",
       },
    );
-   
-   return React.createElement(
+   let counter_container_elm = React.createElement(
       "div",
       null,
-      React.createElement(
-         React.Fragment,
-         null,
-         [
-            p_elm,
-            button_elm,
-         ]
-      ),
+      [
+         p_elm,
+         button_elm,
+      ],
    );
+   return counter_container_elm;
 }
 
 
 let page_load = function hst_page_load() {
    let name = "gurl";
-   // let main_elm = get_counter_div(null);
+   let main_elm = React.createElement(
+      get_counter_div,
+      null,
+   );
    ReactDOM.render(
-      React.createElement(
-         get_counter_div,
-         null,
-      ),
+      main_elm,
       document.getElementById("main_page")
    );
    return;
